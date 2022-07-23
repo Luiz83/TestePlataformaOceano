@@ -8,9 +8,8 @@ namespace TestePlataformaOceano.Domain.Models
         public int QntdDeVoltasCompletadas { get; private set; }
         public TimeSpan TempoTotalDeProva { get; set; }
 
-        public Piloto(int posicaoChegada, int codPiloto, string nomePiloto, int qntdDeVoltasCompletadas, TimeSpan tempoTotalDeProva)
+        public Piloto(int codPiloto, string nomePiloto, int qntdDeVoltasCompletadas, TimeSpan tempoTotalDeProva)
         {
-            SetPosicaoChegada(posicaoChegada);
             SetCodPiloto(codPiloto);
             SetNomePiloto(nomePiloto);
             SetQntdDeVoltasCompletadas(qntdDeVoltasCompletadas);
