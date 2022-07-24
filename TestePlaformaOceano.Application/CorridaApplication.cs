@@ -4,15 +4,15 @@ using ClosedXML.Excel;
 
 namespace TestePlaformaOceano.Application
 {
-    public class CorridaApplication
+    public class CorridaApplication : ICorridaApplication
     {
 
-        public async Task<Corrida> BuscarCorrida(IFormFile logCorrida)
+        public async Task<List<Piloto>> BuscarResultadoCorrida(IFormFile logCorrida)
         {
             var listaDeVoltas = await LerLogDeVoltas(logCorrida);
             var listaDePilotos = await LerResultadoDosPilotos(listaDeVoltas);
             var corrida = new Corrida(listaDePilotos, listaDeVoltas);
-            return corrida;
+            return corrida.Pilotos;
         }
 
         public async Task<List<Volta>> LerLogDeVoltas(IFormFile logCorrida)
@@ -23,48 +23,41 @@ namespace TestePlaformaOceano.Application
 
                 var xls = new XLWorkbook(memoryStream);
                 var planilha = xls.Worksheet(1);
-                var totalLinhas = planilha.Rows().Count();
 
-                List<Volta> listaDeVoltas = new List<Volta>();
-
-                for (int l = 2; l <= totalLinhas; l++)
-                {
-                    var hora = TimeSpan.Parse(planilha.Cell($"A{l}").Value.ToString());
-                    var texto = planilha.Cell($"B{l}").Value.ToString().Split("-");
-                    var codPiloto = int.Parse(texto.First());
-                    var nomePiloto = texto.Last();
-                    var numVolta = int.Parse(planilha.Cell($"C{l}").Value.ToString());
-                    var tempoDaVolta = TimeSpan.Parse(planilha.Cell($"D{l}").Value.ToString());
-                    var velocidadeMedia = double.Parse(planilha.Cell($"E{l}").Value.ToString());
-                    listaDeVoltas.Add(new Volta(hora, codPiloto, nomePiloto, numVolta, tempoDaVolta, velocidadeMedia));
-                }
-
-                return listaDeVoltas;
+                return LerPlanilhaDeVoltas(planilha);
             }
         }
         public async Task<List<Piloto>> LerResultadoDosPilotos(List<Volta> listaDeVoltas)
         {
             List<Piloto> pilotos = new List<Piloto>();
+            var voltasAgrupadaPorPiloto = listaDeVoltas.GroupBy(x => x.CodPiloto);
 
-            foreach (var item in listaDeVoltas)
+            foreach (var item in voltasAgrupadaPorPiloto)
             {
-                if (!pilotos.Exists(x => x.CodPiloto == item.CodPiloto))
-                {
-                    TimeSpan tempoTotal = new TimeSpan();
-                    int numVolta = 0;
-                    foreach (var volta in listaDeVoltas)
-                    {
+                var nomePiloto = item.First().NomePiloto;
+                var totalVoltas = item.Last().NumVolta;
+                TimeSpan tempoTotal = new TimeSpan(item.Sum(x => x.TempoDaVolta.Ticks));
 
-                        if (item.CodPiloto == volta.CodPiloto)
-                        {
-                            numVolta = volta.NumVolta;
-                            tempoTotal = tempoTotal + volta.TempoDaVolta;
-                        }
-                    }
-                    pilotos.Add(new Piloto(item.CodPiloto, item.NomePiloto, numVolta, tempoTotal));
-                }
+                pilotos.Add(new Piloto(item.Key, nomePiloto, totalVoltas, tempoTotal));
             }
             return pilotos;
+        }
+        public List<Volta> LerPlanilhaDeVoltas(IXLWorksheet planilha)
+        {
+            List<Volta> listaDeVoltas = new List<Volta>();
+            var totalLinhas = planilha.Rows().Count();
+            for (int l = 2; l <= totalLinhas; l++)
+            {
+                var hora = TimeSpan.Parse(planilha.Cell($"A{l}").Value.ToString());
+                var texto = planilha.Cell($"B{l}").Value.ToString().Split("–");
+                var codPiloto = int.Parse(texto.First());
+                var nomePiloto = texto.Last();
+                var numVolta = int.Parse(planilha.Cell($"C{l}").Value.ToString());
+                var tempoDaVolta = TimeSpan.Parse("00:"+planilha.Cell($"D{l}").Value.ToString());
+                var velocidadeMedia = double.Parse(planilha.Cell($"E{l}").Value.ToString());
+                listaDeVoltas.Add(new Volta(hora, codPiloto, nomePiloto, numVolta, tempoDaVolta, velocidadeMedia));
+            }
+            return listaDeVoltas;
         }
     }
 }

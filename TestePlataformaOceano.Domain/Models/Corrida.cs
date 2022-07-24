@@ -23,7 +23,20 @@ namespace TestePlataformaOceano.Domain.Models
 
         public void DefinirOrdemDeChegada()
         {
-            Pilotos.OrderBy(x => x.TempoTotalDeProva);
+            List<Piloto> pilotosOrdenados = new List<Piloto>();
+            var pilotosAgrupadosPorVoltas = Pilotos.GroupBy(x => x.QntdDeVoltasCompletadas).OrderByDescending(x => x.Key);
+            foreach (var item in pilotosAgrupadosPorVoltas)
+            {
+                if (item.Key == 4)
+                {
+                    pilotosOrdenados.AddRange(item.OrderBy(x => x.TempoTotalDeProva).ToList());
+                }
+                else
+                {
+                    pilotosOrdenados.AddRange(item.OrderByDescending(x => x.TempoTotalDeProva).ToList());
+                }
+            }
+            Pilotos = pilotosOrdenados;
             foreach (var item in Pilotos)
             {
                 item.SetPosicaoChegada(1 + Pilotos.IndexOf(item));
