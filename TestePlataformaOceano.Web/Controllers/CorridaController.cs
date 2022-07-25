@@ -16,14 +16,7 @@ namespace TestePlataformaOceano.Web.Controllers
         [HttpPost]
         public async Task<IActionResult> ListarCorrida(IFormFile logCorrida)
         {
-            try
-            {
-                return Ok(await _application.BuscarResultadoCorrida(logCorrida));
-            }
-            catch (Exception ex)
-            {
-                return BadRequest(ex.Message);
-            }
+            return Ok(await _application.BuscarResultadoCorrida(logCorrida));
         }
     }
 }

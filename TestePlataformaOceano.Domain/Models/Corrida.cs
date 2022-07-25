@@ -27,14 +27,7 @@ namespace TestePlataformaOceano.Domain.Models
             var pilotosAgrupadosPorVoltas = Pilotos.GroupBy(x => x.QntdDeVoltasCompletadas).OrderByDescending(x => x.Key);
             foreach (var item in pilotosAgrupadosPorVoltas)
             {
-                if (item.Key == 4)
-                {
-                    pilotosOrdenados.AddRange(item.OrderBy(x => x.TempoTotalDeProva).ToList());
-                }
-                else
-                {
-                    pilotosOrdenados.AddRange(item.OrderByDescending(x => x.TempoTotalDeProva).ToList());
-                }
+                pilotosOrdenados.AddRange(item.OrderBy(x => x.TempoTotalDeProva).ToList());
             }
             Pilotos = pilotosOrdenados;
             foreach (var item in Pilotos)

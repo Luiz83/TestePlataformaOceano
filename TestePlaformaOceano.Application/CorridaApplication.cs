@@ -6,6 +6,7 @@ namespace TestePlaformaOceano.Application
 {
     public class CorridaApplication : ICorridaApplication
     {
+        private readonly List<string> _imageFormats = new List<string>() { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" };
 
         public async Task<List<Piloto>> BuscarResultadoCorrida(IFormFile logCorrida)
         {
@@ -17,6 +18,8 @@ namespace TestePlaformaOceano.Application
 
         public async Task<List<Volta>> LerLogDeVoltas(IFormFile logCorrida)
         {
+            if (!_imageFormats.Contains(logCorrida.ContentType))
+                throw new Exception("O arquivo não é uma planilha!");
             using (var memoryStream = new MemoryStream())
             {
                 await logCorrida.CopyToAsync(memoryStream);
@@ -29,6 +32,8 @@ namespace TestePlaformaOceano.Application
         }
         public async Task<List<Piloto>> LerResultadoDosPilotos(List<Volta> listaDeVoltas)
         {
+            if (listaDeVoltas.Count() == 0)
+                throw new Exception("O arquivo está vazio!");
             List<Piloto> pilotos = new List<Piloto>();
             var voltasAgrupadaPorPiloto = listaDeVoltas.GroupBy(x => x.CodPiloto);
 
@@ -53,7 +58,7 @@ namespace TestePlaformaOceano.Application
                 var codPiloto = int.Parse(texto.First());
                 var nomePiloto = texto.Last();
                 var numVolta = int.Parse(planilha.Cell($"C{l}").Value.ToString());
-                var tempoDaVolta = TimeSpan.Parse("00:"+planilha.Cell($"D{l}").Value.ToString());
+                var tempoDaVolta = TimeSpan.Parse("00:" + planilha.Cell($"D{l}").Value.ToString());
                 var velocidadeMedia = double.Parse(planilha.Cell($"E{l}").Value.ToString());
                 listaDeVoltas.Add(new Volta(hora, codPiloto, nomePiloto, numVolta, tempoDaVolta, velocidadeMedia));
             }
