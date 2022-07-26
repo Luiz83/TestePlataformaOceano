@@ -6,7 +6,7 @@ namespace TestePlaformaOceano.Application.Services
 {
     public class CorridaApplication : ICorridaApplication
     {
-        private readonly List<string> _imageFormats = new List<string>() { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" };
+        private readonly List<string> _fileFormats = new List<string>() { "application/vnd.openxmlformats-officedocument.spreadsheetml.sheet" };
 
         public async Task<List<Piloto>> BuscarResultadoCorrida(IFormFile logCorrida)
         {
@@ -18,7 +18,7 @@ namespace TestePlaformaOceano.Application.Services
 
         public async Task<List<Volta>> LerLogDeVoltas(IFormFile logCorrida)
         {
-            if (!_imageFormats.Contains(logCorrida.ContentType))
+            if (!_fileFormats.Contains(logCorrida.ContentType))
                 throw new Exception("O arquivo não é uma planilha!");
             using (var memoryStream = new MemoryStream())
             {

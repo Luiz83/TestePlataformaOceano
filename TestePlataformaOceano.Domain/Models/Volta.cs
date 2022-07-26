@@ -19,27 +19,27 @@ namespace TestePlataformaOceano.Domain.Models
             SetVelocidadeMedia(velocidadeMedia);
         }
 
-        public void SetHora(TimeSpan hora)
+        private void SetHora(TimeSpan hora)
         {
             Hora = hora;
         }
-        public void SetCodPiloto(int codPiloto)
+        private void SetCodPiloto(int codPiloto)
         {
             CodPiloto = codPiloto;
         }
-        public void SetNomePiloto(string nomePiloto)
+        private void SetNomePiloto(string nomePiloto)
         {
             NomePiloto = nomePiloto;
         }
-        public void SetVolta(int numVolta)
+        private void SetVolta(int numVolta)
         {
             NumVolta = numVolta;
         }
-        public void SetTempoDaVolta(TimeSpan tempoDaVolta)
+        private void SetTempoDaVolta(TimeSpan tempoDaVolta)
         {
             TempoDaVolta = tempoDaVolta;
         }
-        public void SetVelocidadeMedia(double velocidadeMedia)
+        private void SetVelocidadeMedia(double velocidadeMedia)
         {
             VelocidadeMedia = velocidadeMedia;
         }

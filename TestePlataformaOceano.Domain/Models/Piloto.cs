@@ -20,19 +20,19 @@ namespace TestePlataformaOceano.Domain.Models
         {
             PosicaoChegada = posicaoChegada;
         }
-        public void SetCodPiloto(int codPiloto)
+        private void SetCodPiloto(int codPiloto)
         {
             CodPiloto = codPiloto;
         }
-        public void SetNomePiloto(string nomePiloto)
+        private void SetNomePiloto(string nomePiloto)
         {
             NomePiloto = nomePiloto;
         }
-        public void SetQntdDeVoltasCompletadas(int qntdDeVoltasCompletadas)
+        private void SetQntdDeVoltasCompletadas(int qntdDeVoltasCompletadas)
         {
             QntdDeVoltasCompletadas = qntdDeVoltasCompletadas;
         }
-        public void SetTempoTotalDeProva(TimeSpan tempoTotalDeProva)
+        private void SetTempoTotalDeProva(TimeSpan tempoTotalDeProva)
         {
             TempoTotalDeProva = tempoTotalDeProva;
         }
