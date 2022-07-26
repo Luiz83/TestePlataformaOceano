@@ -1,7 +1,7 @@
 using Microsoft.AspNetCore.Http;
 using TestePlataformaOceano.Domain.Models;
 
-namespace TestePlaformaOceano.Application
+namespace TestePlaformaOceano.Application.Services
 {
     public interface ICorridaApplication
     {

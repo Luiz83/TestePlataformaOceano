@@ -2,7 +2,7 @@ using TestePlataformaOceano.Domain.Models;
 using Microsoft.AspNetCore.Http;
 using ClosedXML.Excel;
 
-namespace TestePlaformaOceano.Application
+namespace TestePlaformaOceano.Application.Services
 {
     public class CorridaApplication : ICorridaApplication
     {

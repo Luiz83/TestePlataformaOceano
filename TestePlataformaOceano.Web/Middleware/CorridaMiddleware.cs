@@ -1,3 +1,4 @@
+using TestePlaformaOceano.Application.DTOs;
 using Newtonsoft.Json;
 
 namespace TestePlataformaOceano.Web.Middleware

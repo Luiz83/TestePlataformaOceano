@@ -1,4 +1,4 @@
-using TestePlaformaOceano.Application;
+using TestePlaformaOceano.Application.Services;
 using TestePlataformaOceano.Web.Middleware;
 
 var builder = WebApplication.CreateBuilder(args);

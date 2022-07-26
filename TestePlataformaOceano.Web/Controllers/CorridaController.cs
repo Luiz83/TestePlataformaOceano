@@ -1,5 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
-using TestePlaformaOceano.Application;
+using TestePlaformaOceano.Application.Services;
 
 namespace TestePlataformaOceano.Web.Controllers
 {

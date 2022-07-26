@@ -1,4 +1,4 @@
-namespace TestePlataformaOceano.Web.Middleware
+namespace TestePlaformaOceano.Application.DTOs
 {
     public class ErrorResponseModel
     {
